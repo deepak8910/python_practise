@@ -13,9 +13,10 @@ def get_files_cksum(dir_path):
     for (root,dirs,files) in os.walk(dir_path, topdown=True):
         for file in files:
             filename = root + "/" + file
-            cksum = subprocess.check_output(['cksum', filename], encoding='utf-8')
-            cksum = cksum.split()
-            file_cksum_map[filename] = cksum[0]
+            if not os.path.islink(filename):
+                cksum = subprocess.check_output(['cksum', filename], encoding='utf-8')
+                cksum = cksum.split()
+                file_cksum_map[filename] = cksum[0]
     return file_cksum_map
 
 
@@ -35,8 +36,6 @@ def delete_duplicate(file_cksum_map):
             os.system("rm " + filename)
             print("file : %r got deleted" %filename)
             cmd = "ln -s " + cksum_dict[cksum] + " " + filename
-            #print(cmd)
-            
             os.system(cmd)
             
             link_file_list.append(filename)
