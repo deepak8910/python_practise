@@ -1,6 +1,6 @@
 def get_depth(n,testsets):
     depth = {}
-    
+    # code to calculate depth of each vertex
     for i in range(n):
         depth[i] = 0
     for i in testsets:
@@ -8,6 +8,7 @@ def get_depth(n,testsets):
     return depth   
 
 def get_seq(n,testsets):
+    # code to detect deadlock
     print(testsets)
     sets = [set(i) for i in testsets]
     list1 = []
